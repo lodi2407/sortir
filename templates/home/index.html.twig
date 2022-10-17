@@ -3,20 +3,18 @@
 {% block title %}Hello HomeController!{% endblock %}
 
 {% block body %}
-<div>
-    <h1 class="text-white p-2 col-sm"><img class="border border-white" width="50" src="{{ asset('img/eni-logo.png') }}"> Sortir.com</h1>
+   {% include('home/header.html.twig') %}
+   
     <h2 class="text-center pt-5 mt-5">Bienvenue sur le site sortir.com créé par l'école ENI Informatique.</h2>
     <h4 class="text-center">Sur ce site, vous pourrez consulter, vous inscrire et organiser des sorties.</h4>
     <p class="text-center pt-5">Ce site étant privé, vous devez disposer d'un compte pour accéder aux sorties. </p>
 
     <div class="text-center">
-            <button class="btnHome m-3 text-white">
-                <a class="nav-link" href="{{ path('app_connexion') }}">Se connecter</a>
+            <button class="btnHome m-3">
+                <a class="nav-link" href="{{ path('app_login') }}">Se connecter</a>
             </button>
-            <button class="btnHome m-3 text-white">
-                <a class="nav-link" href="{{ path('app_inscription') }}">S'inscrire</a>
+            <button class="btnHome m-3">
+                <a class="nav-link" href="{{ path('app_register') }}">S'inscrire</a>
             </button>
     </div>
-</div>
-
 {% endblock %}

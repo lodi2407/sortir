@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+
+    {% include('home/header.html.twig') %}
+    <div>
+        {{ form_start(registrationForm) }}
+
+        {{ form_widget(registrationForm)}}
+
+        <button>Envoyer</button>
+
+        {{ form_end(registrationForm) }}
+    </div>
+{% endblock %}
