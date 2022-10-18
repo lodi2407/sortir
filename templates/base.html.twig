@@ -14,14 +14,16 @@
         {% endblock %}
 
     </head>
-    <body>
-        {% block body %}{% endblock %}
+    <body id="page-container">
+        <div id="content-wrap">
+            {% block body %}{% endblock %}
 
-        <footer class="text-center text-white p-2">© ENI école informatique</footer>
+            <footer class="text-center text-white p-2">© ENI école informatique</footer>
 
 
-        {% block javascripts %}
-            {# {{ encore_entry_script_tags('app') }} #}
-        {% endblock %}
+            {% block javascripts %}
+                {# {{ encore_entry_script_tags('app') }} #}
+            {% endblock %}
+        </div>
     </body>
 </html>

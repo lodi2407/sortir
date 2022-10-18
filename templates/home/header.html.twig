@@ -1,6 +1,28 @@
-<h1 class="text-white p-2 col-sm">
-    <a class="text-decoration-none text-white" href="{{ path('app_home') }}">
-        <img class="border border-white" width="50" src="{{ asset('img/eni-logo.png') }}"> 
-        Sortir.com
-    </a>
-</h1>
+<div class="container-fluid">
+    <div id="header" class="row">
+        <div class="col-sm-6">
+            <h1 class="p-2">
+                <a class="text-decoration-none text-white" href="{{ path('app_home') }}">
+                    <img class="border border-white" width="50" src="{{ asset('img/eni-logo.png') }}"> 
+                    Sortir.com
+                </a>
+            </h1>
+        </div>
+        {% if app.user %}
+        <div class="col-sm-6 d-flex justify-content-end">
+            <nav class="navbar navbar-expand-lg">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse">
+                    <div class="navbar-nav">
+                        <a class="nav-item nav-link" href="{{ path('app_home') }}">Accueil</a>
+                        <a class="nav-item nav-link" href="{{ path('app_profil', {id : app.user.id}) }}">Mon profil</a>
+                        <a class="nav-item nav-link" href="{{ path('app_logout') }}">Se déconnecter</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        {% endif %}
+    </div>
+</div>

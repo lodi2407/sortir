@@ -3,15 +3,16 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-
+    {% form_theme registrationForm 'bootstrap_5_layout.html.twig' %}  
     {% include('home/header.html.twig') %}
-    <div>
+    <div class="container">
         {{ form_start(registrationForm) }}
 
         {{ form_widget(registrationForm)}}
 
-        <button>Envoyer</button>
-
+        <div class="btnForm">
+            <button class="btnApp">Envoyer</button>
+        </div>
         {{ form_end(registrationForm) }}
     </div>
 {% endblock %}

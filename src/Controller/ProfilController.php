@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Participant;
-use App\Form\RegistrationFormType;
+use App\Form\EditProfilFormType;
 use App\Security\AppAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -12,18 +12,16 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
-class RegistrationController extends AbstractController
+class ProfilController extends AbstractController
 {
-    #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, AppAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
+    #[Route('/profil/{id}', name: 'app_profil')]
+    public function editProfile(Participant $user, Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, AppAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
     {
-        $user = new Participant();
-        $form = $this->createForm(RegistrationFormType::class, $user);
+        $form = $this->createForm(EditProfilFormType::class, $user);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
+            $user = $form->getData();
             // encode the plain password
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
@@ -32,14 +30,13 @@ class RegistrationController extends AbstractController
                 )
             );
 
-           /*  $photo = $form->get('photo')->getData();
+            /*  $photo = $form->get('photo')->getData();
             if ($photo) {
                 $photo->move($photo, '/img');
             } */
            
             $entityManager->persist($user);
             $entityManager->flush();
-            // do anything else you need here, like send an email
 
             return $userAuthenticator->authenticateUser(
                 $user,
@@ -48,8 +45,8 @@ class RegistrationController extends AbstractController
             );
         }
 
-        return $this->render('registration/register.html.twig', [
-            'registrationForm' => $form->createView(),
+        return $this->render('profil/profil.html.twig', [
+            'editProfilForm' =>  $form->createView(),
         ]);
     }
 }
