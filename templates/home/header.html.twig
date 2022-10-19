@@ -17,12 +17,26 @@
                 <div class="collapse navbar-collapse">
                     <div class="navbar-nav">
                         <a class="nav-item nav-link" href="{{ path('app_home') }}">Accueil</a>
-                        <a class="nav-item nav-link" href="{{ path('app_profil', {id : app.user.id}) }}">Mon profil</a>
+                        <a class="nav-item nav-link" href="{{ path('app_profil_edit', {id : app.user.id}) }}">Mon profil</a>
                         <a class="nav-item nav-link" href="{{ path('app_logout') }}">Se déconnecter</a>
                     </div>
                 </div>
             </nav>
         </div>
         {% endif %}
+
+        <div class="m-3 col-sm-3">
+            {# read and display all flash messages #}
+            {% for label, messages in app.flashes %}
+                    {% for message in messages %}
+                        <div class="flash flash-{{ label }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+                {% block javascripts %}
+                    {# {{ encore_entry_script_tags('app') }} #}
+                {% endblock %}
+        </div>
     </div>
 </div>

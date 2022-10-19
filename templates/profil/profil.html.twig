@@ -10,6 +10,8 @@
 
         {{ form_widget(editProfilForm)}}
 
+        <a href="{{ path('app_profil_editPassword', {id : app.user.id}) }}"><button class="btn btn-primary p-3" type="button">Changer de mot de passe</button></a>
+
         <div class="btnForm">
             <button class="btnApp" type="submit">Enregistrer</button>
             <a href="{{ path('app_home') }}"><button class="btnApp" type="button">Annuler</button></a>

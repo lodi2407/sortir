@@ -5,13 +5,14 @@
 {% block body %}
     {% form_theme registrationForm 'bootstrap_5_layout.html.twig' %}  
     {% include('home/header.html.twig') %}
-    <div class="container">
+    <div class="container col-sm-4 mt-3 mb-3">
         {{ form_start(registrationForm) }}
 
         {{ form_widget(registrationForm)}}
 
         <div class="btnForm">
-            <button class="btnApp">Envoyer</button>
+            <button class="btnApp">S'inscrire</button>
+            <a href="{{ path('app_home') }}"><button class="btnApp" type="button">Annuler</button></a>
         </div>
         {{ form_end(registrationForm) }}
     </div>

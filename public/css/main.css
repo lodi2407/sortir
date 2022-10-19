@@ -353,6 +353,22 @@
   padding-bottom: 2.5rem;    /* Footer height */
 }
 
+.flash {
+  padding: 10px;
+  font-weight: bold;
+  margin: 1rem 0;
+  border-radius: 5px;
+}
+
+.flash-success {
+  color: white;
+  background-color: #31a039;
+}
+
+.flash-danger {
+  color: white;
+  background-color: #d33d3d;
+}
 
 
 /** header -------------------------------------------------------- **/
@@ -378,10 +394,11 @@
   background-color: #134A7F;
   color: white;
   margin: 10px;
+  border-radius: 30px;
 }
 
 .btnForm {
-  margin-top: 30px;
+  margin-top: 20px;
   text-align: center;
 }
 
@@ -398,6 +415,10 @@
 .navbar-nav a:hover {
     color:grey;
 }
+
+/** Profil -------------------------------------------------------- **/
+
+
 
 /** footer -------------------------------------------------------- **/
 

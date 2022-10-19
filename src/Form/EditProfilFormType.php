@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Participant;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -43,7 +44,7 @@ class EditProfilFormType extends AbstractType
                         'required' => true
                     ]
                 )
-            ->add('plainPassword', PasswordType::class, [
+            /* ->add('plainPassword', PasswordType::class, [
                 'label' => 'Nouveau mot de passe',
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
@@ -60,7 +61,7 @@ class EditProfilFormType extends AbstractType
                         'max' => 4096,
                     ]),
                 ],
-            ])
+            ]) */
             ->add('photo', FileType::class, [
                         'label' => 'Photo', 
                         'required' => false
