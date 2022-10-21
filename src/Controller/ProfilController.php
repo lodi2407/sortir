@@ -18,7 +18,7 @@ use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 class ProfilController extends AbstractController
 {
     #[Route('/edit/{id}', name: '_edit')]
-    public function editProfile(Participant $user, Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, AppAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
+    public function editProfile(Participant $user, Request $request, UserAuthenticatorInterface $userAuthenticator, AppAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(EditProfilFormType::class, $user);
         $form->handleRequest($request);
@@ -31,6 +31,8 @@ class ProfilController extends AbstractController
            
             $entityManager->persist($user);
             $entityManager->flush();
+
+            $this->addFlash('success','Profil modifié.');
 
             return $userAuthenticator->authenticateUser(
                 $user,

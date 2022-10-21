@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello LieuController!{% endblock %}
+
+{% block body %}
+    {% include('home/header.html.twig') %}
+    {% form_theme createLieuForm 'bootstrap_5_layout.html.twig' %}
+
+    <div class="container col-sm-4 mt-3 mb-3">
+        {{ form_start(createLieuForm) }}
+
+        {{ form_widget(createLieuForm)}}
+
+        <div class="btnForm">
+            <button class="btnApp" type="submit">Enregistrer</button>
+            <a href="{{ path('app_sortie_create', {id: app.user.id}) }}"><button class="btnApp" type="button">Annuler</button></a>
+        </div>
+
+        {{ form_end(createLieuForm) }}
+
+    </div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello SortieController!{% endblock %}
+
+{% block body %}
+    {% include('home/header.html.twig') %}
+    {% form_theme createSortieForm 'bootstrap_5_layout.html.twig' %}
+
+    <div class="container col-sm-8 mt-3 mb-3">
+        {{ form_start(createSortieForm) }}
+        <div class="row">
+            <div class="col">
+                {{ form_row(createSortieForm.nom) }}
+                {{ form_row(createSortieForm.dateHeureDebut) }}
+                {{ form_row(createSortieForm.duree) }}
+                {{ form_row(createSortieForm.dateLimiteInscription) }}
+                {{ form_row(createSortieForm.nbInscriptionsMax) }}
+                {{ form_row(createSortieForm.infosSortie) }}
+            </div>
+            <div class="col offset-sm-1">
+                {# {{ form_row(createSortieForm.organisateur) }} #}
+                {{ form_row(createSortieForm.campus) }}
+                {{ form_row(createSortieForm.ville) }}
+                {{ form_row(createSortieForm.lieu) }}
+                <a href="{{ path('app_lieu_create', {id: app.user.id}) }}"><i class="bi bi-plus-circle"></i> Ajouter un lieu</a>
+                {{ form_row(createSortieForm.rue) }}
+                {{ form_row(createSortieForm.codepostal) }}
+                {{ form_row(createSortieForm.latitude) }}
+                {{ form_row(createSortieForm.longitude) }}
+            </div>
+        </div>
+
+        {# {{ form_widget(createSortieForm)}} #}
+
+        <div class="btnForm">
+            <button class="btnApp" type="submit">Enregistrer</button>
+            <a href="{{ path('app_sortie_list') }}"><button class="btnApp" type="button">Annuler</button></a>
+        </div>
+        {{ form_end(createSortieForm) }}
+    </div>
+{% endblock %}

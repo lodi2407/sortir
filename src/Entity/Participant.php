@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ParticipantRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -46,6 +48,22 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $photo = null;
+
+    #[ORM\ManyToMany(targetEntity: Sortie::class, mappedBy: 'participant')]
+    private Collection $sorties;
+
+    #[ORM\ManyToOne(inversedBy: 'idParticipant')]
+    private ?Campus $campus = null;
+
+    #[ORM\OneToMany(mappedBy: 'organisateur', targetEntity: Sortie::class)]
+    private Collection $idSortie;
+
+    public function __construct()
+    {
+        $this->sorties = new ArrayCollection();
+        $this->sortieOrga = new ArrayCollection();
+        $this->idSortie = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -207,4 +225,74 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Sortie>
+     */
+    public function getSorties(): Collection
+    {
+        return $this->sorties;
+    }
+
+    public function addSortie(Sortie $sortie): self
+    {
+        if (!$this->sorties->contains($sortie)) {
+            $this->sorties->add($sortie);
+            $sortie->addParticipant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSortie(Sortie $sortie): self
+    {
+        if ($this->sorties->removeElement($sortie)) {
+            $sortie->removeParticipant($this);
+        }
+
+        return $this;
+    }
+
+    public function getCampus(): ?Campus
+    {
+        return $this->campus;
+    }
+
+    public function setCampus(?Campus $campus): self
+    {
+        $this->campus = $campus;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Sortie>
+     */
+    public function getIdSortie(): Collection
+    {
+        return $this->idSortie;
+    }
+
+    public function addIdSortie(Sortie $idSortie): self
+    {
+        if (!$this->idSortie->contains($idSortie)) {
+            $this->idSortie->add($idSortie);
+            $idSortie->setOrganisateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIdSortie(Sortie $idSortie): self
+    {
+        if ($this->idSortie->removeElement($idSortie)) {
+            // set the owning side to null (unless already changed)
+            if ($idSortie->getOrganisateur() === $this) {
+                $idSortie->setOrganisateur(null);
+            }
+        }
+
+        return $this;
+    }
+
 }
