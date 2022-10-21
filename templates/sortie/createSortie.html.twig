@@ -34,7 +34,7 @@
 
         <div class="btnForm">
             <button class="btnApp" type="submit">Enregistrer</button>
-            <a href="{{ path('app_sortie_list') }}"><button class="btnApp" type="button">Annuler</button></a>
+            <a href="{{ path('app_sortie_list', {id: app.user.id}) }}"><button class="btnApp" type="button">Annuler</button></a>
         </div>
         {{ form_end(createSortieForm) }}
     </div>

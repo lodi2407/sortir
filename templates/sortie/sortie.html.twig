@@ -4,4 +4,56 @@
 
 {% block body %}
     {% include('home/header.html.twig') %}
+
+    <div class="container">
+        <div class="row">
+            <h4>Filtrer les sorties</h4>
+            <div class="col-5 form-group">
+                <label>Campus</label>
+                <select class="form-control">
+                    <option>1</option>
+                    <option>2</option>
+                </select>
+                <br />
+                <label>Le nom de la sortie contient</label>
+                <input class="form-control" type="search" />
+                <br />
+                <div class="row">Entre &nbsp;
+                    <input class="col form-control w-25" type="date" />
+                    &nbsp; et &nbsp;
+                    <input class="col form-control w-25" type="date" />
+                </div>
+            </div>
+            <div class="col"></div>
+        </div>
+        <div class="row mt-5">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nom de la sortie</th>
+                        <th>Date de la sortie</th>
+                        <th>Clôture</th>
+                        <th>inscrits/places</th>
+                        <th>Etat</th>
+                        <th>Inscrit</th>
+                        <th>Organisateur</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for sortie in sorties %}
+                    <tr>
+                        <td>{{ sortie.nom }}</td>
+                        <td>{{ sortie.dateHeureDebut|date('d/m/Y h:m') }}</td>
+                        <td>{{ sortie.dateLimiteInscription|date('d/m/Y h:m') }}</td>
+                        <td>{{ sortie.nbInscriptionsMax }}</td>
+                        <td>{{ sortie.etat.libelle }}</td>
+                        <td></td>
+                        <td>{{ sortie.organisateur.nom }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 {% endblock %}
