@@ -10,7 +10,12 @@
 
         {{ form_widget(editProfilForm)}}
 
-        <a href="{{ path('app_profil_editPassword', {id : app.user.id}) }}"><button class="btn btn-primary p-3" type="button">Changer de mot de passe</button></a>
+         <!-- Button trigger modal -->
+         <button type="button" class="btn btn-primary mb-4 mt-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Changer de mot de passe
+        </button>
+
+       {#  <a href="{{ path('app_profil_editPassword', {id : app.user.id}) }}"><button class="btn btn-primary p-3" type="button">Changer de mot de passe</button></a> #}
 
         <div class="btnForm">
             <button class="btnApp" type="submit">Enregistrer</button>
@@ -18,4 +23,27 @@
         </div>
         {{ form_end(editProfilForm) }}
     </div>
+
+    <!-- Modal -->
+    {{ form_start(editPasswordForm) }}
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Ajouter un lieu</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">   
+
+                    {{ form_widget(editPasswordForm)}}
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                </div>
+            </div>
+            </div>
+        </div>
+    {{ form_end(editPasswordForm)}}
 {% endblock %}

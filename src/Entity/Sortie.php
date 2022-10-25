@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\SortieRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -18,12 +19,18 @@ class Sortie
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    /**
+     * @Assert\NotBlank (message="Ce champs est obligatoire")
+     */
     private ?string $nom = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $dateHeureDebut = null;
 
     #[ORM\Column(type: Types::TIME_MUTABLE)]
+    /**
+     * @Assert\NotBlank (message="Ce champs est obligatoire")
+     */
     private ?\DateTimeInterface $duree = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
@@ -31,6 +38,9 @@ class Sortie
 
     #[ORM\Column]
    /*  #[Assert\Count(min:1, max:30, minMessage:'Le nombre de participants doit être au minimum de 2 personnes', maxMessage: 'Le nombre de participants doit être au maximul de 30 personnes')] */
+   /**
+     * @Assert\NotBlank (message="Ce champs est obligatoire")
+     */
     private ?int $nbInscriptionsMax = null;
 
     #[ORM\Column(length: 1000, nullable: true)]
@@ -56,6 +66,8 @@ class Sortie
     public function __construct()
     {
         $this->participant = new ArrayCollection();
+        $this->dateHeureDebut = new DateTime();
+        $this->dateLimiteInscription = new DateTime();
     }
 
     public function getId(): ?int

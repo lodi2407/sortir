@@ -30,12 +30,13 @@ class LieuFormType extends AbstractType
                 'required' => false
             ])
             ->add('longitude', NumberType::class, [
-                'label' => 'Latitude', 
+                'label' => 'Longitude', 
                 'required' => false
                 ])
             ->add('ville', EntityType::class, [
                 'label' => 'Ville', 
                 'class' => Ville::class, 'choice_label' => 'nom',
+                'placeholder' => 'Choisir une ville',
                 'query_builder' => function (VilleRepository  $villeRepository) {
                     return $villeRepository->createQueryBuilder('v')->orderBy('v.nom', 'ASC');
                     },  

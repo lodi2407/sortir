@@ -30,7 +30,7 @@ class Lieu
     #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Sortie::class)]
     private Collection $idSortie;
 
-    #[ORM\ManyToOne(inversedBy: 'idLieu')]
+    #[ORM\ManyToOne(inversedBy: 'lieux')]
     private ?Ville $ville = null;
 
     public function __construct()
@@ -131,5 +131,10 @@ class Lieu
         $this->ville = $ville;
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->getNom();
     }
 }

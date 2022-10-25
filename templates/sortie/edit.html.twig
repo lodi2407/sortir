@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Sortie{% endblock %}
+
+{% block body %}
+    {% include('home/header.html.twig') %}
+    {% form_theme modifierSortieForm 'bootstrap_5_layout.html.twig' %}
+
+    <div class="container col-sm-8 mt-3 mb-3">
+        <h3 class="text-center">Modifier une Sortie</h3>
+        {{ form_start(modifierSortieForm) }}
+        <div class="row">
+            <div class="col">
+                {{ form_row(modifierSortieForm.nom) }}
+                {{ form_row(modifierSortieForm.dateHeureDebut) }}
+                {{ form_row(modifierSortieForm.duree) }}
+                {{ form_row(modifierSortieForm.dateLimiteInscription) }}
+                
+            </div>
+            <div class="col offset-sm-1">
+                {{ form_row(modifierSortieForm.nbInscriptionsMax) }}
+                {{ form_row(modifierSortieForm.infosSortie) }}
+                {{ form_row(modifierSortieForm.campus) }}
+                {{ form_row(modifierSortieForm.ville) }}
+
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary mb-4 mt-2" data-bs-toggle="modal" data-bs-target="#addLieu">
+                    Créer un nouveau lieu
+                </button>                
+            </div>
+            <div class="btnForm">
+                <button class="btnApp" type="submit">Enregistrer</button>
+                <a href="{{ path('app_sortie_list') }}"><button class="btnApp" type="button">Annuler</button></a>
+                <!-- Button trigger modal -->
+                <button type="button" class="btnApp mb-4 mt-2" data-bs-toggle="modal" data-bs-target="#deleteSortie">
+                    Supprimer la sortie
+                </button>
+            </div>
+            {{ form_end(modifierSortieForm) }}
+        </div>
+
+    {{ form_start(createLieuForm) }}
+        <!-- Modal -->
+        <div class="modal fade" id="addLieu" tabindex="-1" aria-labelledby="addLieuLabel" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h1 class="modal-title fs-5" id="addLieuLabel">Ajouter un lieu</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">   
+
+                    {{ form_widget(createLieuForm)}}
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                </div>
+            </div>
+            </div>
+        </div>
+    {{ form_end(createLieuForm)}}
+
+    <!-- Modal -->
+    <form method="post" action="{{ path('app_sortie_delete', {id: sortie.id}) }}">
+        <div class="modal fade" id="deleteSortie" tabindex="-1" aria-labelledby="deleteSortieLabel" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h1 class="modal-title fs-5" id="deleteSortieLabel">Ajouter un lieu</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">   
+                    Êtes-vous sûr de vouloir supprimer cette sortie ?
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ sortie.id) }}">
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger">Supprimer</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                </div>
+            </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}

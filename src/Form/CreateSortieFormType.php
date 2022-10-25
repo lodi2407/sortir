@@ -70,11 +70,12 @@ class CreateSortieFormType extends AbstractType
                 'mapped' => false,
                 'label' => 'Ville',
                 'class' => Ville::class, 'choice_label' => 'nom',
+                'placeholder' => 'Choisir une ville',
                 'query_builder' => function (VilleRepository  $villeRepository) {
                     return $villeRepository->createQueryBuilder('v')->orderBy('v.nom', 'ASC');
                     },   
             ])
-            ->add('lieu', EntityType::class, [
+           /*  ->add('lieu', EntityType::class, [
                 'label' => 'Lieu',
                 'class' => Lieu::class, 'choice_label' => 'nom',
                 'placeholder' => 'Choisir un lieu',
@@ -82,8 +83,8 @@ class CreateSortieFormType extends AbstractType
                 'query_builder' => function (LieuRepository  $lieuRepository) {
                     return $lieuRepository->createQueryBuilder('l')->orderBy('l.nom', 'ASC');
                     },  
-            ])
-            ->add('rue', TextType::class, [
+            ]) */
+           /*  ->add('rue', TextType::class, [
                 'mapped' => false,
                 'label' => 'Rue',
                 'disabled' => true  
@@ -102,25 +103,17 @@ class CreateSortieFormType extends AbstractType
                 'mapped' => false,
                 'label' => 'Longitude',
                 'required' => false
-            ])
+            ]) */
             ;
-/*             $formModifier = function (FormInterface $form, Ville $ville = null) {
-                $lieux = null === $ville ? [] : $ville->getIdLieu();
-    
+            $formModifier = function (FormInterface $form, Ville $ville = null) {
+                $lieux = null === $ville ? [] : $ville->getLieux();
+  
                 $form->add('lieu', EntityType::class, [
                     'class' => Lieu::class,
                     'placeholder' => '',
                     'choices' => $lieux,
                 ]);
             };
-            $builder->addEventListener(
-                FormEvents::PRE_SET_DATA,
-                function (FormEvent $event) use ($formModifier) {
-                    $data = $event->getData();
-    
-                    $formModifier($event->getForm(), $data->getNom());
-                }
-            );
             $builder->get('ville')->addEventListener(
                 FormEvents::POST_SUBMIT,
                 function (FormEvent $event) use ($formModifier) {
@@ -133,7 +126,7 @@ class CreateSortieFormType extends AbstractType
                     $formModifier($event->getForm()->getParent(), $ville);
                 }
             );
-        ; */
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

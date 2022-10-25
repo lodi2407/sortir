@@ -22,11 +22,11 @@ class Ville
     private ?int $codePostal = null;
 
     #[ORM\OneToMany(mappedBy: 'ville', targetEntity: Lieu::class)]
-    private Collection $idLieu;
+    private Collection $lieux;
 
     public function __construct()
     {
-        $this->idLieu = new ArrayCollection();
+        $this->lieux = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -61,27 +61,27 @@ class Ville
     /**
      * @return Collection<int, Lieu>
      */
-    public function getIdLieu(): Collection
+    public function getLieux(): Collection
     {
-        return $this->idLieu;
+        return $this->lieux;
     }
 
-    public function addIdLieu(Lieu $idLieu): self
+    public function addIdLieu(Lieu $lieux): self
     {
-        if (!$this->idLieu->contains($idLieu)) {
-            $this->idLieu->add($idLieu);
-            $idLieu->setVille($this);
+        if (!$this->lieux->contains($lieux)) {
+            $this->lieux->add($lieux);
+            $lieux->setVille($this);
         }
 
         return $this;
     }
 
-    public function removeIdLieu(Lieu $idLieu): self
+    public function removeIdLieu(Lieu $lieux): self
     {
-        if ($this->idLieu->removeElement($idLieu)) {
+        if ($this->lieux->removeElement($lieux)) {
             // set the owning side to null (unless already changed)
-            if ($idLieu->getVille() === $this) {
-                $idLieu->setVille(null);
+            if ($lieux->getVille() === $this) {
+                $lieux->setVille(null);
             }
         }
 

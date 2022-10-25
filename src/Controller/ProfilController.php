@@ -18,7 +18,7 @@ use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 class ProfilController extends AbstractController
 {
     #[Route('/edit/{id}', name: '_edit')]
-    public function editProfile(Participant $user, Request $request, UserAuthenticatorInterface $userAuthenticator, AppAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
+    public function editProfile(Participant $user, Request $request, UserAuthenticatorInterface $userAuthenticator, AppAuthenticator $authenticator, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(EditProfilFormType::class, $user);
         $form->handleRequest($request);
@@ -41,12 +41,36 @@ class ProfilController extends AbstractController
             );
         }
 
+        // edit password
+        $formPassword = $this->createForm(EditPasswordType::class);
+        $formPassword->handleRequest($request);
+        
+        if ($formPassword->isSubmitted() && $formPassword->isValid()) {
+            // encode the plain password
+            if ($formPassword->get('plainPassword')->getData() == $formPassword->get('confirmPassword')->getData()) {
+               $user->setPassword(
+                   $userPasswordHasher->hashPassword(
+                       $user,
+                       $formPassword->get('plainPassword')->getData()
+                   )
+               );
+               
+               $entityManager->persist($user);
+               $entityManager->flush();
+
+               $this->addFlash('success','Le mot de passe a été modifié.');
+           } else {
+               $this->addFlash('danger','Les mots de passe renseignés sont différents.');
+           }
+       }
+
         return $this->render('profil/profil.html.twig', [
             'editProfilForm' =>  $form->createView(),
+            'editPasswordForm' =>  $formPassword->createView(),
         ]);
     }
 
-    #[Route('/editPassword/{id}', name: '_editPassword')]
+/*     #[Route('/editPassword/{id}', name: '_editPassword')]
     public function editPassword(Participant $user, Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager) {
 
         $form = $this->createForm(EditPasswordType::class);
@@ -74,5 +98,5 @@ class ProfilController extends AbstractController
         return $this->render('profil/editPassword.html.twig', [
             'editPasswordForm' =>  $form->createView(),
         ]);
-    }
+    } */
 }

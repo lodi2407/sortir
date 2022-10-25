@@ -14,28 +14,57 @@
                 {{ form_row(createSortieForm.dateHeureDebut) }}
                 {{ form_row(createSortieForm.duree) }}
                 {{ form_row(createSortieForm.dateLimiteInscription) }}
-                {{ form_row(createSortieForm.nbInscriptionsMax) }}
-                {{ form_row(createSortieForm.infosSortie) }}
+                
             </div>
             <div class="col offset-sm-1">
                 {# {{ form_row(createSortieForm.organisateur) }} #}
+                {{ form_row(createSortieForm.nbInscriptionsMax) }}
+                {{ form_row(createSortieForm.infosSortie) }}
                 {{ form_row(createSortieForm.campus) }}
                 {{ form_row(createSortieForm.ville) }}
-                {{ form_row(createSortieForm.lieu) }}
-                <a href="{{ path('app_lieu_create', {id: app.user.id}) }}"><i class="bi bi-plus-circle"></i> Ajouter un lieu</a>
-                {{ form_row(createSortieForm.rue) }}
+                {# {{ form_row(createSortieForm.lieu) }} #}
+               {#  {{ form_row(createSortieForm.rue) }}
                 {{ form_row(createSortieForm.codepostal) }}
                 {{ form_row(createSortieForm.latitude) }}
-                {{ form_row(createSortieForm.longitude) }}
-            </div>
-        </div>
+                {{ form_row(createSortieForm.longitude) }} #}
 
-        {# {{ form_widget(createSortieForm)}} #}
+                {# <a href="{{ path('app_lieu_create', {id: app.user.id}) }}"><i class="bi bi-plus-circle"></i> Ajouter un lieu</a> #}
+                
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary mb-4 mt-2" data-bs-toggle="modal" data-bs-target="#addLieu">
+                    Créer un nouveau lieu
+                </button>
+                {{ form_widget(createSortieForm)}}
+        </div>
 
         <div class="btnForm">
             <button class="btnApp" type="submit">Enregistrer</button>
             <a href="{{ path('app_sortie_list', {id: app.user.id}) }}"><button class="btnApp" type="button">Annuler</button></a>
         </div>
         {{ form_end(createSortieForm) }}
+        
+        
+        {{ form_start(createLieuForm) }}
+        <!-- Modal -->
+        <div class="modal fade" id="addLieu" tabindex="-1" aria-labelledby="addLieuLabel" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h1 class="modal-title fs-5" id="addLieuLabel">Ajouter un lieu</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">   
+
+                    {{ form_widget(createLieuForm)}}
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                </div>
+            </div>
+            </div>
+        </div>
+        {{ form_end(createLieuForm)}}
     </div>
 {% endblock %}
