@@ -26,10 +26,11 @@
                 <!-- Button trigger modal -->
                 <button type="button" class="btn btn-primary mb-4 mt-2" data-bs-toggle="modal" data-bs-target="#addLieu">
                     Créer un nouveau lieu
-                </button>                
+                </button>      
+                {{ form_widget(modifierSortieForm)}}          
             </div>
             <div class="btnForm">
-                <button class="btnApp" type="submit">Enregistrer</button>
+                <button class="btnApp" type="submit">Modifier</button>
                 <a href="{{ path('app_sortie_list') }}"><button class="btnApp" type="button">Annuler</button></a>
                 <!-- Button trigger modal -->
                 <button type="button" class="btnApp mb-4 mt-2" data-bs-toggle="modal" data-bs-target="#deleteSortie">

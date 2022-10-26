@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Campus{% endblock %}
+
+{% block body %}
+    {% include('home/header.html.twig') %}
+    {% form_theme form 'bootstrap_5_layout.html.twig' %}
+    <div class="container col-4 mt-3">
+        <h1 class="text-center">Edit Campus</h1>
+        <div class="row">
+            {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <button class="btnApp">Enregistrer</button>
+            
+            <a href="{{ path('app_campus_list') }}">
+                <button class="btnApp" >Annuler</button>
+            </a>
+            {{ form_end(form) }}
+        </div>
+        
+    </div>
+    
+{% endblock %}

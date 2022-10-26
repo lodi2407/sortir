@@ -9,7 +9,7 @@
         <div class="row">
             <div class="col offset-sm-10 text-right">
                 <p>Date du jour : {{ "now"|date("d M Y") }} </p>
-                <p>Participant : {{ app.user.nom }}</p>
+                <p>Participant : {{ app.user.prenom }} {{ app.user.nom }}</p>
             </div>
         </div>
         <div class="row">
@@ -40,7 +40,7 @@
                         <th>Nom de la sortie</th>
                         <th>Date de la sortie</th>
                         <th>Clôture</th>
-                        <th>inscrits/places</th>
+                        <th>Nombre de places</th>
                         <th>Etat</th>
                         <th>Inscrit</th>
                         <th>Organisateur</th>
@@ -55,13 +55,26 @@
                         <td>{{ sortie.dateLimiteInscription|date('d/m/Y h:m') }}</td>
                         <td>{{ sortie.nbInscriptionsMax }}</td>
                         <td>{{ sortie.etat.libelle }}</td>
-                        <td></td>
-                        <td>{{ sortie.organisateur.nom }}</td>
+                        <td class="text-center">
+                            {% set inscrit = false %}
+                            {% for participant in sortie.participant %}
+                                {% if participant == app.user %}
+                                    <span>x</span>
+                                    {% set inscrit = true %}
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>{{ sortie.organisateur.prenom }} {{ sortie.organisateur.nom }}</td>
                         <td>
                             <a href="{{ path('app_sortie_show', {id: sortie.id}) }}">Afficher</a>
-                            <a href="{{ path('app_sortie_edit', {id: sortie.id}) }}">Modifier</a>
-                            <a>S'inscrire</a>
-                            <a>Se désister</a>
+                            {% if sortie.organisateur == app.user %}
+                                <a href="{{ path('app_sortie_edit', {id: sortie.id}) }}">Modifier</a>
+                            {% endif %}
+                            {% if inscrit %}
+                                <a href="{{ path('app_sortie_removeParticipant', {id: sortie.id}) }}">Se désister</a>
+                            {% else %}
+                                <a href="{{ path('app_sortie_addParticipant', {id: sortie.id}) }}">S'inscrire</a>
+                            {% endif %}
                         </td>
                     </tr>
                     {% endfor %}

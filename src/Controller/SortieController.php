@@ -144,4 +144,31 @@ class SortieController extends AbstractController
 
         return $this->redirectToRoute('app_sortie_list', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/addParticipant/{id}', name: '_addParticipant', methods: ['GET'])]
+    public function addParticipant(Sortie $sortie, EntityManagerInterface $entityManager): Response
+    {
+        $user= $this->getUser();
+
+        $sortie->addParticipant($user);
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Inscription réussie !');
+        return $this->redirectToRoute('app_sortie_list', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/removeParticipant/{id}', name: '_removeParticipant', methods: ['GET'])]
+    public function unFollow(Sortie $sortie,EntityManagerInterface $entityManager): Response
+    {
+        $participant= $this->getUser();
+
+        $sortie->removeParticipant($participant);
+
+        $entityManager->persist($sortie);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Désinscription réussie !');
+        return $this->redirectToRoute('app_sortie_list', [], Response::HTTP_SEE_OTHER);
+    }
 }

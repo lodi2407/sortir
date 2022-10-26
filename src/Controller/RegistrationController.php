@@ -23,6 +23,13 @@ class RegistrationController extends AbstractController
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
+        $role = $form->get('administrateur')->getData();
+        if ($role) {
+            $user->setRoles(["ROLE_ADMIN"]);
+        } else {
+            $user->setRoles(["ROLE_USER"]);
+        }
+
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
             $user->setPassword(
@@ -30,6 +37,7 @@ class RegistrationController extends AbstractController
                     $user,
                     $form->get('plainPassword')->getData()
                 )
+            
             );
 
            /*  $photo = $form->get('photo')->getData();

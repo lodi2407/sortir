@@ -19,28 +19,25 @@ class Sortie
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    /**
-     * @Assert\NotBlank (message="Ce champs est obligatoire")
-     */
+    #[Assert\NotBlank]
     private ?string $nom = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Assert\GreaterThan('today', message: 'Vous ne pouvez organiser une sortie avant demain')]
     private ?\DateTimeInterface $dateHeureDebut = null;
 
     #[ORM\Column(type: Types::TIME_MUTABLE)]
-    /**
-     * @Assert\NotBlank (message="Ce champs est obligatoire")
-     */
+    #[Assert\GreaterThan('1970-01-01 00:30:00', message: 'Une sortie ne peut durer moins de 30 minutes')]
+    #[Assert\NotBlank]
     private ?\DateTimeInterface $duree = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Assert\LessThan(propertyPath:'dateHeureDebut', message: 'Les inscirptions doivent se terminer avant le début de la sortie')]
     private ?\DateTimeInterface $dateLimiteInscription = null;
 
     #[ORM\Column]
-   /*  #[Assert\Count(min:1, max:30, minMessage:'Le nombre de participants doit être au minimum de 2 personnes', maxMessage: 'Le nombre de participants doit être au maximul de 30 personnes')] */
-   /**
-     * @Assert\NotBlank (message="Ce champs est obligatoire")
-     */
+    #[Assert\NotBlank]
+    #[Assert\GreaterThan(2)]
     private ?int $nbInscriptionsMax = null;
 
     #[ORM\Column(length: 1000, nullable: true)]
@@ -53,6 +50,7 @@ class Sortie
     private ?Campus $campus = null;
 
     #[ORM\ManyToOne(inversedBy: 'idSortie')]
+    #[Assert\NotBlank(message: 'Veuillez ajouter un lieu')]
     private ?Lieu $lieu = null;
 
     #[ORM\ManyToOne(inversedBy: 'idSortie')]

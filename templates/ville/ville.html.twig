@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gérer les villes{% endblock %}
+
+{% block body %}
+    {% include('home/header.html.twig') %}
+    {% form_theme createVilleForm 'bootstrap_5_layout.html.twig' %}
+
+    <div class="container mt-3">
+        <h3 class="text-center">Gérer les villes</h3>
+        <h5>Filtrer les villes</h5>
+        <div class="row mb-3">
+            <div class="col-4">
+                <label>Le nom de la ville contient</label>
+            <input class="form-control" type="search" />
+            </div>
+            <div class="col">
+            </br>
+                <button class="btn btn-primary">Rechercher</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Ville</th>
+                            <th>Code postal</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ville in villes %}
+                            <tr>
+                                <td>{{ville.nom}}</td>
+                                <td>{{ville.codepostal}}</td>
+                                <td>
+                                    <a href="{{ path('app_ville_edit', {id: ville.id} )}}">Modifier</a>
+                                    -
+                                    <!-- Button trigger modal -->
+                                    <a class="mb-4 mt-2" role="button" data-bs-toggle="modal" data-bs-target="#supprVille{{ville.id}}">
+                                        Supprimer
+                                    </a>   
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="supprVille{{ville.id}}" tabindex="-1" aria-labelledby="supprVilleLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="supprVilleLabel">Supprimer une ville</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">   
+
+                                                Êtes-vous sûr de vouloir supprimer la ville "{{ ville.nom }}" ?
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <a href="{{ path('app_ville_delete', {id: ville.id}) }}"><button type="button" class="btn btn-danger">Supprimer</button></a>
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>  
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        {{ form_start(createVilleForm) }}
+                        <tr>
+                            <td>
+                                {{ form_row(createVilleForm.nom) }}
+                            </td>
+                            <td>
+                                {{ form_row(createVilleForm.codePostal) }}
+                            </td>
+                            <td>
+                                <button class="btn btn-primary" type="submit">Ajouter</a>
+                            </td>
+                        </tr>
+                        {{ form_end(createVilleForm) }}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
