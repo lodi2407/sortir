@@ -17,6 +17,7 @@
                 <div class="collapse navbar-collapse">
                     <div class="navbar-nav">
                         {% if is_granted("ROLE_ADMIN") %}
+                            <a class="nav-item nav-link" href="{{ path('app_admin_dashboard') }}">Dashboard</a>
                             <a class="nav-item nav-link" href="{{ path('app_ville_list') }}">Villes</a>
                             <a class="nav-item nav-link" href="{{ path('app_campus_list') }}">Campus</a>
                         {% endif %}

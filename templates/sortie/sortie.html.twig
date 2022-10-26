@@ -38,9 +38,11 @@
                 <thead>
                     <tr>
                         <th>Nom de la sortie</th>
+                        <th>Lieu</th>
+                        <th>Ville</th>
                         <th>Date de la sortie</th>
                         <th>Clôture</th>
-                        <th>Nombre de places</th>
+                        <th>Inscrits / places</th>
                         <th>Etat</th>
                         <th>Inscrit</th>
                         <th>Organisateur</th>
@@ -51,9 +53,11 @@
                     {% for sortie in sorties %}
                     <tr>
                         <td>{{ sortie.nom }}</td>
-                        <td>{{ sortie.dateHeureDebut|date('d/m/Y h:m') }}</td>
-                        <td>{{ sortie.dateLimiteInscription|date('d/m/Y h:m') }}</td>
-                        <td>{{ sortie.nbInscriptionsMax }}</td>
+                        <td>{{ sortie.lieu.nom }}</td>
+                        <td>{{ sortie.lieu.ville.nom }}</td>
+                        <td>{{ sortie.dateHeureDebut|date('d/m/Y H:i') }}</td>
+                        <td>{{ sortie.dateLimiteInscription|date('d/m/Y h:i') }}</td>
+                        <td>{{ sortie.participant.count }} / {{ sortie.nbInscriptionsMax }}</td>
                         <td>{{ sortie.etat.libelle }}</td>
                         <td class="text-center">
                             {% set inscrit = false %}

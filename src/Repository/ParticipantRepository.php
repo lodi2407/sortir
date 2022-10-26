@@ -56,20 +56,31 @@ class ParticipantRepository extends ServiceEntityRepository implements PasswordU
         $this->save($user, true);
     }
 
-//    /**
-//     * @return Participant[] Returns an array of Participant objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('p.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @return Participant[] Returns an array of Participant objects
+     */
+    public function findActiveParticipants(): array
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.actif = 1')
+            ->orderBy('p.nom', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+        /**
+     * @return Participant[] Returns an array of Participant objects
+     */
+    public function findInactiveParticipants(): array
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.actif = 0')
+            ->orderBy('p.nom', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
 //    public function findOneBySomeField($value): ?Participant
 //    {

@@ -24,7 +24,7 @@ class SortieController extends AbstractController
     #[Route('/accueil', name: '_list', methods: ['GET'])]
     public function listSorties(Request $request, SortieRepository $sortieRepository): Response
     {
-        $sorties = $sortieRepository->findBy([], ['dateHeureDebut' => 'ASC']);
+        $sorties = $sortieRepository->findCurrentSorties();
 
         return $this->render('sortie/sortie.html.twig', compact('sorties'));
     }

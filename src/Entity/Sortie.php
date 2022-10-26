@@ -22,7 +22,7 @@ class Sortie
     #[Assert\NotBlank]
     private ?string $nom = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[Assert\GreaterThan('today', message: 'Vous ne pouvez organiser une sortie avant demain')]
     private ?\DateTimeInterface $dateHeureDebut = null;
 
