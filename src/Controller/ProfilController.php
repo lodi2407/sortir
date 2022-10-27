@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Participant;
 use App\Form\EditPasswordType;
 use App\Form\EditProfilFormType;
+use App\Repository\ParticipantRepository;
 use App\Security\AppAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -67,6 +68,16 @@ class ProfilController extends AbstractController
         return $this->render('profil/profil.html.twig', [
             'editProfilForm' =>  $form->createView(),
             'editPasswordForm' =>  $formPassword->createView(),
+        ]);
+    }
+
+    #[Route('/show/{id}', name: '_show')]
+    public function showProfile(Participant $user, ParticipantRepository $participantRepository): Response
+    {
+        $user = $participantRepository->find($user->getId());
+
+        return $this->render('profil/show.html.twig', [
+            'user' => $user
         ]);
     }
 

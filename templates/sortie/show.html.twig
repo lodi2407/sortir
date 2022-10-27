@@ -8,70 +8,80 @@
     <div class="container col-sm-9 mt-3 mb-3">
         <div class="row">
             <div class="col">
-                <div class="form-group mb-3">
-                    <h5><label>Nom de la sortie</label></h5>
-                    <input class="form-control" disabled value="{{ sortie.nom }}">
+                <div class="mb-3">
+                    <h5>Nom de la sortie</h5>
+                    {{ sortie.nom }}
                 </div>
-                <div class="form-group mb-3">
-                    <label>Date et heure</label>
-                    <input class="form-control" disabled value="{{ sortie.dateHeureDebut|date('d-M-Y') }}">
+                <div class="mb-3">
+                    Organisateur : {{ sortie.organisateur.nom }} {{ sortie.organisateur.prenom }}
                 </div>
-                <div class="form-group mb-3">
-                    <label>Date limite d'inscription</label>
-                    <input class="form-control" disabled value="{{ sortie.dateLimiteInscription|date('d-M-Y') }}">
+                <div class="mb-3">
+                    Date et heure : {{ sortie.dateHeureDebut|date('d-M-Y') }}
                 </div>
-                <div class="form-group mb-3">
-                    <label>Nombre de places</label>
-                    <input class="form-control" disabled value="{{ sortie.nbInscriptionsMax }}">
+                <div class="mb-3">
+                    Date limite d'inscription : {{ sortie.dateLimiteInscription|date('d-M-Y') }}
                 </div>
-                <div class="form-group mb-3">
-                    <label>Durée</label>
-                    <input class="form-control" disabled value="{{ sortie.duree|date('h:m:s') }}">
+                <div class="mb-3">
+                    Nombre d'inscrits/places : {{ sortie.participant.count() }}/{{ sortie.nbInscriptionsMax }}
                 </div>
-                <div class="form-group mb-3">
-                    <label>Descritpion et infos</label>
-                    <textarea class="form-control" disabled>
-                        {{ sortie.infosSortie }}
-                    </textarea>
+                <div class="mb-3">
+                    Durée : {{ sortie.duree|date('h:m:s') }}
+                </div>
+                <div class="mb-3 border">
+                    <u>Descritpion et infos : </u>
+                </br>
+                    {{ sortie.infosSortie }}
                 </div>
             </div>
             <div class="col offset-sm-1">
-                <div class="form-group mb-3">
-                    <label>Campus</label>
-                    <input class="form-control" disabled value="">
+                <div class="mb-3">
+                    Campus : {{ sortie.campus.nom }}
                 </div>
-                <div class="form-group mb-3">
-                    <label>Lieu</label>
-                    <input class="form-control" disabled value="">
+                <div class="mb-3">
+                    Ville : {{ sortie.lieu.ville.nom }}                 
                 </div>
-                <div class="form-group mb-3">
-                    <label>Rue</label>
-                    <input class="form-control" disabled value="">
+                <div class="mb-3">
+                    Code postal : {{ sortie.lieu.ville.codepostal }}                 
                 </div>
-                <div class="form-group mb-3">
-                    <label>Code postal</label>
-                    <input class="form-control" disabled value="">
+                <div class="mb-3">
+                    Lieu : {{ sortie.lieu.nom }}                
                 </div>
-                <div class="form-group mb-3">
-                    <label>Latitude</label>
-                    <input class="form-control" disabled value="">
+                <div class="mb-3">
+                    Rue : {{ sortie.lieu.rue }}                 
                 </div>
-                <div class="form-group mb-3">
-                    <label>Longitude</label>
-                    <input class="form-control" disabled value="">
+                <div class="mb-3">
+                    Latitude : {{ sortie.lieu.latitude }}                      
+                </div>
+                <div class="mb-3">
+                    Longitude : {{ sortie.lieu.longitude }}                   
                 </div>
             </div>
         </div>
-        
+        <div class="row">
+            <div class="col">
+                <p>Participants : </p>
+                <ul>
+                    {% for p in participants %}
+                        <li>
+                            <a href="{{ path('app_profil_show', {id: p.id}) }}">
+                                {{ p.nom }}
+                                {{ p.prenom }}
+                            </a>
+                        </li>
+                        
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% if sortie.organisateur.id == app.user.id %}
+            <a href="{{ path('app_sortie_edit', {id: sortie.id}) }}">
+                <button class="btnApp">Modifier</button> 
+            </a>
+        {% endif %}
         <a href="{{ path('app_sortie_list') }}">
             <button class="btnApp">Retour</button>
         </a>
     
-{#             <a href="{{ path('app_sortie_edit', {id: sortie.id}) }}">
-               <button class="btnApp">Modifier</button> 
-            </a>
-    
-            {{ include('sortie/_delete_form.html.twig') }} #}
      
     </div>
 

@@ -4,6 +4,7 @@
 
 {% block body %}
     {% include('home/header.html.twig') %}
+    {% form_theme filtersForm 'bootstrap_5_layout.html.twig' %}
 
     <div class="container mt-3">
         <div class="row">
@@ -12,28 +13,32 @@
                 <p>Participant : {{ app.user.prenom }} {{ app.user.nom }}</p>
             </div>
         </div>
-        <div class="row">
-            <h4>Filtrer les sorties</h4>
-            <div class="col-5 form-group">
-                <label>Campus</label>
-                <select class="form-control">
-                </select>
-                <br />
-                <label>Le nom de la sortie contient</label>
-                <input class="form-control" type="search" />
-                <br />
-                <div class="row">Entre &nbsp;
-                    <input class="col form-control w-25" type="date" />
-                    &nbsp; et &nbsp;
-                    <input class="col form-control w-25" type="date" />
+        {{ form_start(filtersForm) }}
+            <div class="row">
+                <h4>Filtrer les sorties</h4>
+                <div class="col-5 form-group">
+                    {{ form_row(filtersForm.campus) }}
+                    {{ form_row(filtersForm.nomSortie) }}
+                    <div class="row">
+                        <div class="col">{{ form_row(filtersForm.dateDebut) }}</div>
+                        <div class="col">{{ form_row(filtersForm.dateFin) }}</div>
+                    </div>
+                </div>
+                <div class="col-4 offset-sm-1 mt-4 pt-5">
+                </br>
+                    {{ form_row(filtersForm.organisateur) }}
+                    {{ form_row(filtersForm.inscrit) }}
+                    {{ form_row(filtersForm.pasInscrit) }}
+                    {{ form_row(filtersForm.passees) }}
+                </div>
+                <div class="col-2 mt-5">
+                </br>
+                    <button class="btnApp" type="submit">Rechercher</button>
                 </div>
             </div>
-            <div class="col-5"></div>
-            <div class="col-2">
-                <button class="btnApp">Rechercher</button>
-            </div>
-        </div>
-        <div class="row mt-5">
+        {{ form_end(filtersForm) }}
+        <div class="row mt-4">
+            Nombre de sorties : {{ sorties|length }}
             <table class="table table-striped table-bordered">
                 <thead>
                     <tr>
@@ -57,7 +62,7 @@
                         <td>{{ sortie.lieu.ville.nom }}</td>
                         <td>{{ sortie.dateHeureDebut|date('d/m/Y H:i') }}</td>
                         <td>{{ sortie.dateLimiteInscription|date('d/m/Y h:i') }}</td>
-                        <td>{{ sortie.participant.count }} / {{ sortie.nbInscriptionsMax }}</td>
+                        <td>{{ sortie.participant.count() }} / {{ sortie.nbInscriptionsMax }}</td>
                         <td>{{ sortie.etat.libelle }}</td>
                         <td class="text-center">
                             {% set inscrit = false %}
@@ -68,7 +73,9 @@
                                 {% endif %}
                             {% endfor %}
                         </td>
-                        <td>{{ sortie.organisateur.prenom }} {{ sortie.organisateur.nom }}</td>
+                        <td>
+                            <a href="{{ path('app_profil_show', {id: sortie.organisateur.id}) }}">{{ sortie.organisateur.prenom }} {{ sortie.organisateur.nom }}</a>
+                        </td>
                         <td>
                             <a href="{{ path('app_sortie_show', {id: sortie.id}) }}">Afficher</a>
                             {% if sortie.organisateur == app.user %}
@@ -84,11 +91,22 @@
                     {% endfor %}
                 </tbody>
             </table>
-            <a href="{{ path('app_sortie_create', {id: app.user.id}) }}">
-                <button class="btnApp mb-4">
-                    Créer une sortie
-                </button>
-            </a>
+            {% set page = 1  %}
+            {% if previous >= 0 %}
+                <a href="{{ path('app_sortie_list', { offset: previous }) }}">Previous</a>
+                {% set page = page + 1  %}
+            {% endif %}
+            Page : {{ page }}
+            {% if next < sorties|length %}
+                <a href="{{ path('app_sortie_list', { offset: next }) }}">Next</a>
+                {% set page = page + 1  %}
+            {% endif %}
+            
         </div>
+        <a href="{{ path('app_sortie_create', {id: app.user.id}) }}">
+            <button class="btnApp mb-4">
+                Créer une sortie
+            </button>
+        </a>
     </div>
 {% endblock %}

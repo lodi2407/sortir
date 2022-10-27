@@ -28,14 +28,14 @@ class Lieu
     private ?float $longitude = null;
 
     #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Sortie::class)]
-    private Collection $idSortie;
+    private Collection $sorties;
 
     #[ORM\ManyToOne(inversedBy: 'lieux')]
     private ?Ville $ville = null;
 
     public function __construct()
     {
-        $this->idSortie = new ArrayCollection();
+        $this->sorties = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -94,27 +94,27 @@ class Lieu
     /**
      * @return Collection<int, Sortie>
      */
-    public function getIdSortie(): Collection
+    public function getSortie(): Collection
     {
-        return $this->idSortie;
+        return $this->sorties;
     }
 
-    public function addIdSortie(Sortie $idSortie): self
+    public function addSortie(Sortie $sorties): self
     {
-        if (!$this->idSortie->contains($idSortie)) {
-            $this->idSortie->add($idSortie);
-            $idSortie->setLieu($this);
+        if (!$this->sorties->contains($sorties)) {
+            $this->sorties->add($sorties);
+            $sorties->setLieu($this);
         }
 
         return $this;
     }
 
-    public function removeIdSortie(Sortie $idSortie): self
+    public function removeSortie(Sortie $sorties): self
     {
-        if ($this->idSortie->removeElement($idSortie)) {
+        if ($this->sorties->removeElement($sorties)) {
             // set the owning side to null (unless already changed)
-            if ($idSortie->getLieu() === $this) {
-                $idSortie->setLieu(null);
+            if ($sorties->getLieu() === $this) {
+                $sorties->setLieu(null);
             }
         }
 

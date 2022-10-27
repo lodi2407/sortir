@@ -3,10 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Etat;
+use App\Entity\FiltersSorties;
 use App\Entity\Lieu;
 use App\Entity\Participant;
 use App\Entity\Sortie;
 use App\Form\CreateSortieFormType;
+use App\Form\FiltersSortiesFormType;
 use App\Form\LieuFormType;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
@@ -21,12 +23,29 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/sortie', name: 'app_sortie')]
 class SortieController extends AbstractController
 {
-    #[Route('/accueil', name: '_list', methods: ['GET'])]
+    #[Route('/accueil', name: '_list', methods: ['GET', 'POST'])]
     public function listSorties(Request $request, SortieRepository $sortieRepository): Response
     {
-        $sorties = $sortieRepository->findCurrentSorties();
+        
+        $filters = new FiltersSorties();
+        $user = $this->getUser();
 
-        return $this->render('sortie/sortie.html.twig', compact('sorties'));
+        $form = $this->createForm(FiltersSortiesFormType::class, $filters);
+        $form->handleRequest($request);
+
+        $offset = max(0, $request->query->getInt('offset', 0));
+        $paginator = $sortieRepository->findFilteredSorties($filters, $user, $offset);
+
+        if ($form->isSubmitted() && $form->isValid()) {  
+            $paginator = $sortieRepository->findFilteredSorties($filters, $user, $offset);
+        } 
+
+        return $this->render('sortie/sortie.html.twig',[
+            'sorties' => $paginator,
+            'previous' => $offset - SortieRepository::PAGINATOR_PER_PAGE,
+            'next' => min(count($paginator), $offset + SortieRepository::PAGINATOR_PER_PAGE),
+            'filtersForm' => $form->createView()
+        ]);
     }
 
     #[Route('/create/{id}', name: '_create', methods: ['GET', 'POST'])]
@@ -35,6 +54,7 @@ class SortieController extends AbstractController
         $sortie = new Sortie();
         $sortie->setOrganisateur($user);
         $sortie->setCampus($user->getCampus());
+        $sortie->addParticipant($user);
 
         $etat = new Etat();
         $etat = $etatRepository->findOneById(1);
@@ -82,8 +102,11 @@ class SortieController extends AbstractController
     #[Route('/{id}', name: '_show', methods: ['GET'])]
     public function show(Sortie $sortie): Response
     {
+        $participants = $sortie->getParticipant();
+
         return $this->render('sortie/show.html.twig', [
             'sortie' => $sortie,
+            'participants' => $participants
         ]);
     }
 

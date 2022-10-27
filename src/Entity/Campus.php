@@ -22,12 +22,12 @@ class Campus
     private Collection $idParticipant;
 
     #[ORM\OneToMany(mappedBy: 'campus', targetEntity: Sortie::class)]
-    private Collection $idSortie;
+    private Collection $sorties;
 
     public function __construct()
     {
         $this->idParticipant = new ArrayCollection();
-        $this->idSortie = new ArrayCollection();
+        $this->sorties = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -80,27 +80,27 @@ class Campus
     /**
      * @return Collection<int, Sortie>
      */
-    public function getIdSortie(): Collection
+    public function getSortie(): Collection
     {
-        return $this->idSortie;
+        return $this->sorties;
     }
 
-    public function addIdSortie(Sortie $idSortie): self
+    public function addSortie(Sortie $sorties): self
     {
-        if (!$this->idSortie->contains($idSortie)) {
-            $this->idSortie->add($idSortie);
-            $idSortie->setCampus($this);
+        if (!$this->sorties->contains($sorties)) {
+            $this->sorties->add($sorties);
+            $sorties->setCampus($this);
         }
 
         return $this;
     }
 
-    public function removeIdSortie(Sortie $idSortie): self
+    public function removeSortie(Sortie $sorties): self
     {
-        if ($this->idSortie->removeElement($idSortie)) {
+        if ($this->sorties->removeElement($sorties)) {
             // set the owning side to null (unless already changed)
-            if ($idSortie->getCampus() === $this) {
-                $idSortie->setCampus(null);
+            if ($sorties->getCampus() === $this) {
+                $sorties->setCampus(null);
             }
         }
 

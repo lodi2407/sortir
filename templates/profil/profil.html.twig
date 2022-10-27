@@ -5,6 +5,7 @@
 {% block body %}
     {% form_theme editProfilForm 'bootstrap_5_layout.html.twig' %}
     {% include('home/header.html.twig') %}
+    
     <div class="container col-sm-4 mt-3 mb-3">
         {{ form_start(editProfilForm) }}
 
@@ -19,7 +20,7 @@
 
         <div class="btnForm">
             <button class="btnApp" type="submit">Enregistrer</button>
-            <a href="{{ path('app_home') }}"><button class="btnApp" type="button">Annuler</button></a>
+            <a href="{{ path('app_sortie_list') }}"><button class="btnApp" type="button">Annuler</button></a>
         </div>
         {{ form_end(editProfilForm) }}
     </div>
