@@ -12,7 +12,7 @@
                 <p>Pénom : {{ user.prenom }}</p>
                 <p>Téléphone : {{ user.telephone }}</p>
                 <p>Campus : {{ user.campus.nom }}</p>
-                <p>Sorties auxquelles l'utilisateur est inscrit : </p>
+                <p>Sorties organisées par l'utilisateur : </p>
                 <table class="table table-striped table-bordered">
                     <thead>
                         <tr>
@@ -28,6 +28,37 @@
                     </thead>
                     <tbody>
                         {% for sortie in user.sortiesOrga %}
+                            <tr>
+                                <td>{{ sortie.nom }}</td>
+                                <td>{{ sortie.lieu.nom }}</td>
+                                <td>{{ sortie.lieu.ville.nom }}</td>
+                                <td>{{ sortie.dateHeureDebut|date('d/m/Y H:i') }}</td>
+                                <td>{{ sortie.dateLimiteInscription|date('d/m/Y h:i') }}</td>
+                                <td>{{ sortie.participant.count() }} / {{ sortie.nbInscriptionsMax }}</td>
+                                <td>{{ sortie.etat.libelle }}</td>
+                                <td>{{ sortie.organisateur.prenom }} {{ sortie.organisateur.nom }}</td>
+                                
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <p>Sorties auxquelles participe l'utilisateur : </p>
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Nom de la sortie</th>
+                            <th>Lieu</th>
+                            <th>Ville</th>
+                            <th>Date de la sortie</th>
+                            <th>Clôture</th>
+                            <th>Inscrits / places</th>
+                            <th>Etat</th>
+                            <th>Organisateur</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for sortie in user.sorties %}
                             <tr>
                                 <td>{{ sortie.nom }}</td>
                                 <td>{{ sortie.lieu.nom }}</td>

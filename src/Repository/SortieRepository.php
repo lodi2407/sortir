@@ -69,14 +69,12 @@ class SortieRepository extends ServiceEntityRepository
 
         if($filters->getCampus()) {
             $query = $query 
-
                 ->andWhere('s.campus = :campus')
                 ->setParameter('campus', $filters->getCampus()->getId());
         }
 
         if($filters->getNomSortie()) {
             $query = $query
-
                 ->andWhere($query->expr()->like('s.nom', ':name'))
                 ->setParameter(':name', '%' . $filters->getNomSortie() . '%');
                 
@@ -91,14 +89,12 @@ class SortieRepository extends ServiceEntityRepository
 
         if($filters->isOrganisateur()) {
             $query = $query
-
                 ->andWhere('s.organisateur = :id')
                 ->setParameter(':id', $user->getId());
         }
 
         if($filters->isInscrit()) {
             $query = $query
-
                 ->innerJoin('s.participant', 'participant')
                 ->andWhere('participant.id = :id')
                 ->setParameter(':id', $user->getId());
@@ -107,7 +103,6 @@ class SortieRepository extends ServiceEntityRepository
 
         if($filters->isPasInscrit()) {
             $query = $query
-
                 ->innerJoin('s.participant', 'participant')
                 ->addSelect('participant')
                 ->andWhere('participant.id != :id')

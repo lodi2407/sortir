@@ -26,7 +26,6 @@ class SortieController extends AbstractController
     #[Route('/accueil', name: '_list', methods: ['GET', 'POST'])]
     public function listSorties(Request $request, SortieRepository $sortieRepository): Response
     {
-        
         $filters = new FiltersSorties();
         $user = $this->getUser();
 
