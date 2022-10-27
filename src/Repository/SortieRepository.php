@@ -45,14 +45,19 @@ class SortieRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return Sortie[] Returns an array of Sortie objects
+     * @return Paginator[] Returns an array of Sortie objects
      */
-    public function findCurrentSorties(): array
+    public function findCurrentSorties(int $offset): Paginator
     {
-        return $this->createQueryBuilder('s')
+        return new Paginator(
+            $this->createQueryBuilder('s')
             ->orderBy('s.dateHeureDebut', 'ASC')
+            ->andWhere('s.dateHeureDebut > ' . "'" . date("Y-m-d") . "'")
+            ->setMaxResults(self::PAGINATOR_PER_PAGE)
+            ->setFirstResult($offset)
             ->getQuery()
-            ->getResult();
+        );
+    
     }
 
     /**

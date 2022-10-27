@@ -27,17 +27,18 @@ class SortieController extends AbstractController
     public function listSorties(Request $request, SortieRepository $sortieRepository): Response
     {
         $filters = new FiltersSorties();
-        $user = $this->getUser();
 
         $form = $this->createForm(FiltersSortiesFormType::class, $filters);
         $form->handleRequest($request);
 
+        $user = $this->getUser();
         $offset = max(0, $request->query->getInt('offset', 0));
-        $paginator = $sortieRepository->findFilteredSorties($filters, $user, $offset);
 
         if ($form->isSubmitted() && $form->isValid()) {  
             $paginator = $sortieRepository->findFilteredSorties($filters, $user, $offset);
-        } 
+        } else {
+            $paginator = $sortieRepository->findCurrentSorties($offset);
+        }
 
         return $this->render('sortie/sortie.html.twig',[
             'sorties' => $paginator,
