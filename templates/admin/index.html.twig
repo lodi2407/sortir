@@ -27,6 +27,7 @@
                         <th>Telephone</th>
                         <th>Campus</th>
                         <th>Role</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -38,7 +39,56 @@
                         <td>{{ p.telephone }}</td>
                         <td>{{ p.campus.nom }}</td>
                         <td>{{ p.roles[0] }}</td>
+                        <td>
+                            <a class="mb-4 mt-2" role="button" data-bs-toggle="modal" data-bs-target="#deleteUser{{p.id}}">
+                                Supprimer
+                            </a>
+                            -
+                            <a class="mb-4 mt-2" role="button" data-bs-toggle="modal" data-bs-target="#disableUser{{p.id}}">
+                                disable
+                            </a>
+                        </td>
                     </tr>
+                    <!-- Modal -->
+                    <div class="modal fade" id="deleteUser{{p.id}}" tabindex="-1" aria-labelledby="deleteUserLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="deleteUserLabel">Ajouter un lieu</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">   
+
+                                Êtes-vous sûr de vouloir désactiver l'utilisateur "{{ p.prenom }} {{ p.nom }}" ?
+
+                            </div>
+                            <div class="modal-footer">
+                                <a href="{{ path('app_admin_delUser', {id: p.id}) }}"><button type="submit" class="btn btn-primary">Supprimer</button></a>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                     <!-- Modal -->
+                     <div class="modal fade" id="disableUser{{p.id}}" tabindex="-1" aria-labelledby="disableUserLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="disableUserLabel">Ajouter un lieu</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">   
+
+                                Êtes-vous sûr de vouloir désactiver l'utilisateur "{{ p.prenom }} {{ p.nom }}" ?
+
+                            </div>
+                            <div class="modal-footer">
+                                <a href="{{ path('app_admin_disableUser', {id: p.id}) }}"><button type="submit" class="btn btn-primary">Désactiver</button></a>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
                     {% endfor %}
                 </tbody>
             </table>
@@ -55,6 +105,7 @@
                         <th>Telephone</th>
                         <th>Campus</th>
                         <th>Role</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -66,11 +117,62 @@
                         <td>{{ p.telephone }}</td>
                         <td>{{ p.campus.nom }}</td>
                         <td>{{ p.roles[0] }}</td>
+                        <td>
+                            <a class="mb-4 mt-2" role="button" data-bs-toggle="modal" data-bs-target="#deleteUser{{p.id}}">
+                                Supprimer
+                            </a>
+                            -
+                            <a class="mb-4 mt-2" role="button" data-bs-toggle="modal" data-bs-target="#enableUser{{p.id}}">
+                                enable
+                            </a>
+                        </td>
                     </tr>
+                    <!-- Modal -->
+                    <div class="modal fade" id="deleteUser{{p.id}}" tabindex="-1" aria-labelledby="deleteUserLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="deleteUserLabel">Ajouter un lieu</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">   
+
+                                Êtes-vous sûr de vouloir supprimer l'utilisateur "{{ p.prenom }} {{ p.nom }}" ?
+
+                            </div>
+                            <div class="modal-footer">
+                                <a href="{{ path('app_admin_delUser', {id: p.id}) }}"><button type="submit" class="btn btn-primary">Supprimer</button></a>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                     <!-- Modal -->
+                     <div class="modal fade" id="enableUser{{p.id}}" tabindex="-1" aria-labelledby="enableUserLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="enableUserLabel">Ajouter un lieu</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">   
+
+                                Êtes-vous sûr de vouloir rendre l'utilisateur "{{ p.prenom }} {{ p.nom }}" actif ?
+
+                            </div>
+                            <div class="modal-footer">
+                                <a href="{{ path('app_admin_enableUser', {id: p.id}) }}"><button type="submit" class="btn btn-primary">Activer</button></a>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
     </div>
+
+
 
 {% endblock %}
